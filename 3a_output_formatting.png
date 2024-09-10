@@ -1,0 +1,22 @@
+def emotion_predictor(text):
+    """
+    Função para prever emoções usando Watson NLP e retornar um formato específico.
+    :param text: Texto de entrada para análise
+    :return: Dicionário com emoções formatadas
+    """
+    try:
+        # Exemplo de chamada à API (utilizando Watson NLU)
+        response = natural_language_understanding.analyze(
+            text=text,
+            features=Features(emotion=EmotionOptions())
+        ).get_result()
+        
+        # Extrair as emoções e formatar o resultado
+        emotions = response['emotion']['document']['emotion']
+        formatted_emotions = {emotion: f"{score:.2f}" for emotion, score in emotions.items()}
+        
+        return formatted_emotions
+    
+    except Exception as e:
+        print(f"Erro ao analisar o texto: {e}")
+        return {}
