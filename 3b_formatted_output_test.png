@@ -1,0 +1,10 @@
+# test_output.py
+
+from emotion_detector import emotion_predictor
+
+# Texto de exemplo para análise de emoção
+sample_text = "I feel so happy and excited about the future!"
+
+# Chamar a função e imprimir o resultado
+output = emotion_predictor(sample_text)
+print(output)
