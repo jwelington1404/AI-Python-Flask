@@ -1,0 +1,43 @@
+import json
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_watson.natural_language_understanding_v1 import Features, EmotionOptions
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+# Configure suas credenciais do Watson NLU
+api_key = 'sua_api_key_aqui'
+url = 'sua_url_aqui'
+
+# Configuração do autenticar Watson NLU
+authenticator = IAMAuthenticator(api_key)
+natural_language_understanding = NaturalLanguageUnderstandingV1(
+    version='2021-08-01',
+    authenticator=authenticator
+)
+natural_language_understanding.set_service_url(url)
+
+def emotion_detector(text):
+    """
+    Função para detectar emoções no texto usando Watson NLU
+    :param text: Texto de entrada para análise
+    :return: Dicionário com as emoções detectadas
+    """
+    try:
+        # Chamada à API do Watson para análise de emoções
+        response = natural_language_understanding.analyze(
+            text=text,
+            features=Features(emotion=EmotionOptions())
+        ).get_result()
+        
+        # Extração das emoções do resultado da API
+        emotions = response['emotion']['document']['emotion']
+        return emotions
+    
+    except Exception as e:
+        print(f"Erro ao analisar o texto: {e}")
+        return {}
+
+# Exemplo de uso
+if __name__ == "__main__":
+    sample_text = "I am very happy and excited to learn new things!"
+    detected_emotions = emotion_detector(sample_text)
+    print(json.dumps(detected_emotions, indent=2))
