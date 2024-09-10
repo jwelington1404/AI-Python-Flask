@@ -1,0 +1,7 @@
+# test_import.py
+
+try:
+    from emotion_detector import emotion_detector
+    print("Importação bem-sucedida!")
+except ImportError as e:
+    print(f"Erro na importação: {e}")
